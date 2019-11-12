@@ -19,7 +19,9 @@ const delay = require('delay');
       const html = await page.evaluate(body => body.innerHTML, bodyHandle);
       if (
         html.includes('ขณะนี้คุณอยู่ระหว่างการรอคิวเพื่อลงทะเบียน') ||
-        html.includes('504 Gateway Time-out')
+        html.includes('504 Gateway Time-out') ||
+        html.includes('502 Bad Gateway') ||
+        html.includes('1 คนเลือกซื้อของขวัญ 1 รายการในราคา 100 บาท')
       ) {
         continue;
       } else {
