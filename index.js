@@ -1,37 +1,32 @@
-const puppeteer = require('puppeteer');
-const delay = require('delay');
+const puppeteer = require('puppeteer')
+const delay = require('delay')
 
-(async () => {
+;(async () => {
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
     executablePath:
       '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  });
-  const page = await browser.newPage();
+  })
+  const page = await browser.newPage()
   while (true) {
     try {
-      await page.goto(
-        'https://www.xn--100-mmlpaa9fbc4ccb3l4bd5pe7frde.com/register',
-      );
-      await delay(1000);
-      const bodyHandle = await page.$('body');
-      const html = await page.evaluate(body => body.innerHTML, bodyHandle);
-      if (
-        html.includes('ขณะนี้คุณอยู่ระหว่างการรอคิวเพื่อลงทะเบียน') ||
-        html.includes('504 Gateway Time-out') ||
-        html.includes('502 Bad Gateway') ||
-        html.includes('1 คนเลือกซื้อของขวัญ 1 รายการในราคา 100 บาท')
-      ) {
-        continue;
+      await page.goto('http://measy-announcement.mea.or.th/')
+      await delay(1000)
+      const bodyHandle = await page.$('body')
+      const img = await page.$('img')
+      await page.waitForSelector('img.fit')
+      const getImgSrc = await page.$eval('img', img => img.getAttribute('src'))
+      if (getImgSrc === 'sorry.png') {
+        continue
       } else {
         setInterval(() => {
-          console.log('Found!!');
-        }, 1000);
-        break;
+          console.log('Found!!')
+        }, 1000)
+        break
       }
     } catch (e) {
-      continue;
+      continue
     }
   }
-})();
+})()
